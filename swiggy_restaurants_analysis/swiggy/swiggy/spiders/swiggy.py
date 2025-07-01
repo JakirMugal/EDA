@@ -69,4 +69,5 @@ class SwiggySpider(scrapy.Spider):
         )
         
     def parse_restaurant(self,response):
+        
         print(response.url)
