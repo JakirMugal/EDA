@@ -1,5 +1,10 @@
 import scrapy
 from urllib.parse import urlencode
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..','..', 'common_lib')))
+import text_parse
+
 
 class SwiggySpider(scrapy.Spider):
     name = "swiggy"
@@ -48,11 +53,11 @@ class SwiggySpider(scrapy.Spider):
             headers=self.headers,
             callback=self.parse_address,
             dont_filter=True,
-            meta={'handle_httpstatus_all': True},
         )
     def parse_address(self,response):
         data=response.json()['data'][0]
         location_json = data['geometry']['location'] 
+        import pdb; pdb.set_trace()
         params = {
                 'is-seo-homepage-enabled': 'true',
                 'page_type': 'DESKTOP_WEB_LISTING',
@@ -65,9 +70,10 @@ class SwiggySpider(scrapy.Spider):
             headers=self.headers,
             callback=self.parse_restaurant,
             dont_filter=True,
-            meta={'handle_httpstatus_all': True},
+            meta={"params":params},
         )
         
     def parse_restaurant(self,response):
-        
-        print(response.url)
+        data=response.json()
+
+        import pdb; pdb.set_trace()
